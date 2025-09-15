@@ -9,5 +9,5 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Home() {
-  return <Login />;  // <-- Renderizas el login en lugar de Welcome
+  return <Login />;
 }

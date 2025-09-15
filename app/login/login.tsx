@@ -16,7 +16,7 @@ export function Login() {
 
                 <form className="w-full max-w-xs space-y-4">
                     <div>
-                        <label className="block text-sm font-medium text-black">Usuario</label>
+                        <label className="block text-sm font-medium text-black text-center">Usuario</label>
                         <input
                             type="text"
                             className="w-full border-2 border-black rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -24,22 +24,25 @@ export function Login() {
                         />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-black">Contraseña</label>
+                        <label className="block text-sm font-medium text-black text-center">Contraseña</label>
                         <input
                             type="password"
                             className="w-full border-2 border-black rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                             placeholder="Contraseña"
                         />
                     </div>
+
+                    {/* Botón centrado */}
                     <button
                         type="submit"
-                        className="w-full border-2 border-black bg-blue-400 text-white py-2 rounded-lg hover:bg-blue-600 transition"
+                        className="w-32 mx-auto block border-2 border-black bg-blue-400 text-white py-2 rounded-lg hover:bg-blue-600 transition"
                     >
                         Entrar
                     </button>
                 </form>
 
-                <div className="text-sm mt-4 text-black text-center">
+                {/* Registro a la izquierda */}
+                <div className="text-sm mt-4 text-black text-left w-full max-w-xs">
                     <p>¿No tienes cuenta?</p>
                     <a href="/registro" className="text-red-500 hover:underline block mt-1">
                         Regístrate...
