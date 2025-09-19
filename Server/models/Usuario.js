@@ -1,11 +1,11 @@
-// server/models/Usuario.js
-
 import mongoose from 'mongoose';
 
-const UsuarioSchema = new mongoose.Schema({
+// Esquema de Usuario
+const usuarioSchema = new mongoose.Schema({
   Usuario: {
     type: String,
     required: true,
+    unique: true,
   },
   Nombre: {
     type: String,
@@ -26,13 +26,15 @@ const UsuarioSchema = new mongoose.Schema({
   },
   Foto: {
     type: String,
+    default: null, // Foto opcional
   },
   Activo: {
     type: Boolean,
-    default: true,
+    default: true, // Usuario activo por defecto
   },
 });
 
-const Usuario = mongoose.model('Usuario', UsuarioSchema);
+// Crear el modelo de Usuario
+const Usuario = mongoose.model('Usuario', usuarioSchema);
 
 export default Usuario;
