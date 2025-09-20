@@ -1,13 +1,15 @@
-import type { Route } from "./+types/home";
-import { Welcome } from "../welcome/welcome";
+import { Login } from "../login/login";
+import Registro from "../registro/registro"; // ← importación por defecto
 
-export function meta({}: Route.MetaArgs) {
+// Metadata de la página
+export function meta() {
   return [
-    { title: "New React Router App" },
-    { name: "description", content: "Welcome to React Router!" },
+    { title: "Login - React Router App" },
+    { name: "description", content: "Página de inicio de sesión" },
   ];
 }
 
+// Componente principal de la página Home
 export default function Home() {
-  return <Welcome />;
+  return <Registro />;
 }
