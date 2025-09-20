@@ -1,31 +1,19 @@
-import type { Route } from "./+types/home";
-import { Welcome } from "../welcome/welcome";
-import { Link } from "react-router";
+
+import { Login } from "../login/login";
+import Registro from "../registro/registro"; // ← importación por defecto
 
 
-export function meta({}: Route.MetaArgs) {
+// Metadata de la página
+export function meta() {
   return [
-    { title: "New React Router App" },
-    { name: "description", content: "Welcome to React Router!" }
- 
+
+    { title: "Login - React Router App" },
+    { name: "description", content: "Página de inicio de sesión" },
   ];
 }
 
-
+// Componente principal de la página Home
 export default function Home() {
-  return (
-    <div>
-      <Welcome />
-      
-      {/* 👇 Aquí agregarías el botón */}
-      <div className="text-center mt-8">
-        <Link 
-          to="/ejemplo" 
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        >
-          Ir a Página Ejemplo
-        </Link>
-      </div>
-    </div>
-  );
+  return <Registro />;
 }
+
