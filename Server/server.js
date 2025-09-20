@@ -1,35 +1,58 @@
-import express from 'express';
-import cors from 'cors';
 import mongoose from 'mongoose';
-import usuarioRoutes from './routes/usuarioRoutes.js';  // Rutas de usuarios
+import bcrypt from 'bcryptjs';  // Importamos bcryptjs para encriptar contraseñas
 
-// Inicializamos el servidor Express
-const app = express();
-
-// Middleware para manejar JSON en las solicitudes
-app.use(express.json());
-app.use(cors()); // Esto permitirá que tu front-end se comunique con el back-end
-
-// Conectar con la base de datos MongoDB
+// Conectar a MongoDB de escritorio (ajusta la URL de conexión si es necesario)
 mongoose.connect('mongodb://localhost:27017/Web2', {
   useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-  .then(() => console.log('Conexión a MongoDB exitosa'))
-  .catch((err) => console.log('Error al conectar con MongoDB:', err));
-
-// Usar las rutas de usuarios (esto es necesario para las peticiones a /usuarios)
-app.use('/usuarios', usuarioRoutes);
-
-// Ruta de prueba para ver si el servidor está funcionando
-app.get('/', (req, res) => {
-  res.send('Servidor funcionando');
+  useUnifiedTopology: true
+}).then(() => {
+  console.log('Conexión a MongoDB exitosa');
+}).catch((error) => {
+  console.error('Error al conectar con MongoDB:', error);
 });
 
-// Puerto del servidor
-const PORT = process.env.PORT || 5000;
-
-// Iniciar el servidor
-app.listen(PORT, () => {
-  console.log(`Servidor corriendo en el puerto ${PORT}`);
+// Definir el esquema de Usuario
+const usuarioSchema = new mongoose.Schema({
+  Usuario: { type: String, required: true },
+  Nombre: { type: String, required: true },
+  Correo: { type: String, required: true, unique: true },
+  Telefono: { type: String, required: true },
+  Password: { type: String, required: true },
+  Foto: { type: String, default: null },
+  Activo: { type: Boolean, default: true }
 });
+
+// Middleware para encriptar la contraseña antes de guardarla
+usuarioSchema.pre('save', async function (next) {
+  if (this.isModified('Password')) {
+    const salt = await bcrypt.genSalt(10);  // Generar un "salt"
+    this.Password = await bcrypt.hash(this.Password, salt);  // Encriptar la contraseña
+  }
+  next();
+});
+
+// Crear el modelo de Usuario
+const Usuario = mongoose.model('Usuario', usuarioSchema);
+
+// Función para insertar un usuario
+async function insertarUsuario() {
+  const nuevoUsuario = new Usuario({
+    Usuario: 'testUser',
+    Nombre: 'Juan Pérez',
+    Correo: 'juan.perez@example.com',
+    Telefono: '123456789',
+    Password: '123456',  // La contraseña será encriptada antes de guardarla
+    Foto: null,
+    Activo: true
+  });
+
+  try {
+    await nuevoUsuario.save();
+    console.log('Usuario insertado correctamente');
+  } catch (error) {
+    console.error('Error al insertar el usuario:', error);
+  }
+}
+
+// Llamamos a la función insertarUsuario
+insertarUsuario();
